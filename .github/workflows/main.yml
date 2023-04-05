@@ -16,7 +16,10 @@ jobs:
 
       - name: Stop Bumbleboard service
 
-        run: systemctl --user stop bumbleboard.service
+        run: |
+          loginctl enable-linger ${USER}
+          sleep 5
+          systemctl --user stop bumbleboard.service
 
       - name: Copy code to working directory
         run: cp -ru ./ /opt/bumbleboard/
@@ -25,4 +28,7 @@ jobs:
         run: cd /opt/bumbleboard/ && go build -v -o bbs
 
       - name: Start Bumbleboard service
-        run: systemctl --user start bumbleboard.service
+        run: |
+          loginctl enable-linger ${USER}
+          sleep 5
+          systemctl --user start bumbleboard.service
