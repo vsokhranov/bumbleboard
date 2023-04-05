@@ -4,10 +4,6 @@ on:
   push:
     branches: [main]
 
-env:
-  XDG_RUNTIME_DIR: /run/user/${UID}
-  DBUS_SESSION_BUS_ADDRESS: "unix:path=${XDG_RUNTIME_DIR}/bus"
-
 jobs:
   deploy:
     runs-on: self-hosted
@@ -15,9 +11,11 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Stop Bumbleboard service
+      - name: Run tests
+        run: go test -v ./...
 
-        run: systemctl --user stop bumbleboard.service
+      - name: Stop Bumbleboard service
+        run: sudo systemctl stop bumbleboard.service
 
       - name: Copy code to working directory
         run: cp -ru ./ /opt/bumbleboard/
@@ -26,4 +24,4 @@ jobs:
         run: cd /opt/bumbleboard/ && go build -v -o bbs
 
       - name: Start Bumbleboard service
-        run: systemctl --user start bumbleboard.service
+        run: sudo systemctl start bumbleboard.service

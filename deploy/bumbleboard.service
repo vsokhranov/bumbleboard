@@ -3,6 +3,8 @@ Description=Bumbleboard web application
 After=network.target
 
 [Service]
+User=opc
+Group=opc
 WorkingDirectory=/opt/bumbleboard
 ExecStart=/opt/bumbleboard/bbs
 Restart=always
