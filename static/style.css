@@ -1,0 +1,56 @@
+body {
+    font-family: Ubuntu, monospace;
+    background-color: ivory;
+}
+
+.bg-image {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: right bottom;
+    z-index: -1;
+  }
+
+.post {
+    margin-top: 10px;
+    padding: 10px;
+    background-color: seashell;
+    opacity: 0.9;
+    border-radius: 5px;
+}
+
+.post p.id {
+    margin: 0;
+    font-weight: bold;
+}
+
+.post p.content {
+    margin: 0;
+    font-size: 16px;
+    word-wrap: break-word;
+}
+
+.post p.time {
+    margin: 0;
+    font-size: 12px;
+    color: slategray;
+}
+
+.post p.name {
+    margin: 0;
+    font-size: 12px;
+    color: slategray;
+    text-align: left;
+}
+
+textarea {
+    resize: none;
+    opacity: 0.9;
+}
+
+ul {
+    list-style: none;
+    padding-left: 0;
+}
