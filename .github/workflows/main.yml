@@ -1,0 +1,24 @@
+name: Deploy Bumbleboard
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  deploy:
+    runs-on: self-hosted
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Stop Bumbleboard service
+        run: systemctl --user stop bumbleboard.service
+
+      - name: Copy code to working directory
+        run: cp -ruv ./ /opt/bumbleboard/
+
+      - name: Build Bumbleboard
+        run: cd /opt/bumbleboard/ && go build -v -o bbs
+
+      - name: Start Bumbleboard service
+        run: systemctl --user start bumbleboard.service

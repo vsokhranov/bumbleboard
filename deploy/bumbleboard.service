@@ -1,0 +1,17 @@
+[Unit]
+Description=Bumbleboard web application
+After=network.target
+
+[Service]
+User=opc
+Group=opc
+WorkingDirectory=/opt/bumbleboard
+ExecStart=/opt/bumbleboard/bbs
+Restart=always
+RestartSec=10s
+KillSignal=SIGINT
+StandardOutput=journal
+StandardError=journal
+
+[Install]
+WantedBy=multi-user.target

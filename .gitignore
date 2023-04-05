@@ -19,3 +19,6 @@ posts.json
 
 # BBS posts journal
 posts.log
+
+# BBS executable file
+bbs
