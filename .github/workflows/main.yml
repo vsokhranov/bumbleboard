@@ -15,7 +15,7 @@ jobs:
         run: systemctl --user stop bumbleboard.service
 
       - name: Copy code to working directory
-        run: cp -ruv ./ /opt/bumbleboard/
+        run: cp -ru ./ /opt/bumbleboard/
 
       - name: Build Bumbleboard
         run: cd /opt/bumbleboard/ && go build -v -o bbs
