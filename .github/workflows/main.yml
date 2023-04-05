@@ -6,6 +6,7 @@ on:
 
 env:
   XDG_RUNTIME_DIR: /run/user/${UID}
+  DBUS_SESSION_BUS_ADDRESS: "unix:path=${XDG_RUNTIME_DIR}/bus"
 
 jobs:
   deploy:
@@ -16,10 +17,7 @@ jobs:
 
       - name: Stop Bumbleboard service
 
-        run: |
-          loginctl enable-linger ${USER}
-          sleep 5
-          systemctl --user stop bumbleboard.service
+        run: systemctl --user stop bumbleboard.service
 
       - name: Copy code to working directory
         run: cp -ru ./ /opt/bumbleboard/
@@ -28,7 +26,4 @@ jobs:
         run: cd /opt/bumbleboard/ && go build -v -o bbs
 
       - name: Start Bumbleboard service
-        run: |
-          loginctl enable-linger ${USER}
-          sleep 5
-          systemctl --user start bumbleboard.service
+        run: systemctl --user start bumbleboard.service
