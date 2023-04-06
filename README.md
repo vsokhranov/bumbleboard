@@ -43,4 +43,4 @@ Bumblebee background image by <a href="https://pixabay.com/users/nekomachines-19
 ## History
 - 2023-03-30 Beginning of development
 - 2023-04-05 First public version released at https://bbbbs.click
-- 2023-04-06 Disallow empty posts
+- 2023-04-06 Disallow empty posts, textarea spaces fix
