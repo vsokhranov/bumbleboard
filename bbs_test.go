@@ -9,13 +9,15 @@ import (
 )
 
 func TestMain(m *testing.M) {
-	// run tests
+	// Run tests
 	result := m.Run()
 
-	// delete log file
-	err := os.Remove("test.log")
-	if err != nil {
-		log.Fatal("Failed to remove test.log:", err)
+	// Delete log file if it exists
+	if _, err := os.Stat("test.log"); !os.IsNotExist(err) {
+		err = os.Remove("test.log")
+		if err != nil {
+			log.Fatalf("Failed to remove test.log: %s", err)
+		}
 	}
 	os.Exit(result)
 }
@@ -36,10 +38,11 @@ func TestNameFromIP(t *testing.T) {
 }
 
 func TestSanitizePost(t *testing.T) {
-	// Test with valid input and unescaped HTML
+	// Test with various inputs
 	testTable := map[string]string{
 		"Hello world!":                    "Hello world!",
 		"<script>alert('hello')</script>": "&lt;script&gt;alert(&#39;hello&#39;)&lt;/script&gt;",
+		"                               ": "",
 	}
 	for k, v := range testTable {
 		if got := sanitizePost(k); got != v {

@@ -247,6 +247,10 @@ func main() {
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		if r.Method == "POST" {
 			content := sanitizePost(r.FormValue("content"))
+			if content == "" {
+				http.Redirect(w, r, "/", http.StatusSeeOther)
+				return
+			}
 			ip := r.Header.Get("X-Real-IP")
 			if ip == "" {
 				ip = strings.Split(r.RemoteAddr, ":")[0]
