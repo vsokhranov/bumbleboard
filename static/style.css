@@ -14,11 +14,11 @@ body {
   }
 
 .post {
-    margin-top: 10px;
-    padding: 10px;
+    margin-bottom: 1rem;
+    padding: 1rem;
     background-color: seashell;
     opacity: 0.9;
-    border-radius: 5px;
+    border-radius: 0.5rem;
 }
 
 .post p.id {
