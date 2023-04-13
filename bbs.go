@@ -59,7 +59,7 @@ var (
 func (bbs *BBS) FlushPosts() {
 	bbs.Mutex.Lock()
 	defer bbs.Mutex.Unlock()
-	bbs.Posts = bbs.Posts[MAX_POSTS-1:]
+	bbs.Posts = bbs.Posts[len(bbs.Posts)-1:]
 	log.Print("Flushed old posts…")
 }
 
