@@ -245,15 +245,15 @@ func main() {
 	}
 
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+		ip := r.Header.Get("X-Real-IP")
+		if ip == "" {
+			ip = strings.Split(r.RemoteAddr, ":")[0]
+		}
 		if r.Method == "POST" {
 			content := sanitizePost(r.FormValue("content"))
 			if content == "" {
 				http.Redirect(w, r, "/", http.StatusSeeOther)
 				return
-			}
-			ip := r.Header.Get("X-Real-IP")
-			if ip == "" {
-				ip = strings.Split(r.RemoteAddr, ":")[0]
 			}
 			bbs.AddPost(content, ip)
 			log.Printf("%s (%s) said: %s", nameFromIP(ip), ip, content)
@@ -267,7 +267,7 @@ func main() {
 			TopAlert  string
 		}{
 			Posts:     bbs.Posts,
-			PostsLeft: POSTS_PER_IP - bbs.PostCount(r.Header.Get("X-Real-IP")),
+			PostsLeft: POSTS_PER_IP - bbs.PostCount(ip),
 			TopAlert:  topAlert,
 		}
 		tpl.Execute(w, data)

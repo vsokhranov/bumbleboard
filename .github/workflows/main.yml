@@ -21,7 +21,9 @@ jobs:
         run: cp -ru ./ /opt/bumbleboard/
 
       - name: Build Bumbleboard
-        run: cd /opt/bumbleboard/ && go build -v -o bbs
+        run: |
+          cd /opt/bumbleboard/ && go build -v -o bbs
+          sudo restorecon -R -v /opt/bumbleboard/
 
       - name: Start Bumbleboard service
         run: sudo systemctl start bumbleboard.service
