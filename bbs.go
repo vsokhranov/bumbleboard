@@ -222,7 +222,7 @@ func sanitizePost(text string) string {
 func main() {
 	// Create a new HTTP server
 	srv := &http.Server{
-		Addr:    ":8080",
+		Addr:    ":8081",
 		Handler: nil, // use the default ServeMux
 	}
 
