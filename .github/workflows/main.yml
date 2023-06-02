@@ -15,12 +15,10 @@ jobs:
         run: go test -v ./...
 
       - name: Build Bumbleboard
-        uses: "LiveSafe/ghactions-kubectl@main"
-        env:
-          KUBE_CONFIG_DATA: ${{ secrets.KUBE_CONFIG }}
-        with:
-          manifest: ""
-          command: image build -t bumbleboard .
+        run: |
+          export SHELL=/bin/bash
+          eval $(minikube -p minikube docker-env)
+          podman build -f ./Dockerfile -t bumbleboard .
 
       - name: Update Bumbleboard deployment
         uses: "LiveSafe/ghactions-kubectl@main"
