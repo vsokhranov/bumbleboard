@@ -15,15 +15,16 @@ jobs:
         run: go test -v ./...
 
       - name: Build Bumbleboard
-        uses: ghostzero/kubectl@v1
+        uses: "LiveSafe/ghactions-kubectl@main"
         env:
-          KUBE_CONFIG: ${{ secrets.KUBE_CONFIG }}
+          KUBE_CONFIG_DATA: ${{ secrets.KUBE_CONFIG }}
         with:
-          args: image build -t bumbleboard .
+          manifest: ""
+          command: image build -t bumbleboard .
 
       - name: Update Bumbleboard deployment
-        uses: ghostzero/kubectl@v1
+        uses: "LiveSafe/ghactions-kubectl@main"
         env:
-          KUBE_CONFIG: ${{ secrets.KUBE_CONFIG }}
+          KUBE_CONFIG_DATA: ${{ secrets.KUBE_CONFIG }}
         with:
-          args: apply -f deploy/bumbleboard.yml
+          manifest: deploy/bumbleboard.yml
