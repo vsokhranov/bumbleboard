@@ -14,16 +14,9 @@ jobs:
       - name: Run tests
         run: go test -v ./...
 
-      - name: Stop Bumbleboard service
-        run: sudo systemctl stop bumbleboard.service
-
-      - name: Copy code to working directory
-        run: cp -ru ./ /opt/bumbleboard/
-
       - name: Build Bumbleboard
         run: |
-          cd /opt/bumbleboard/ && go build -v -o bbs
-          sudo restorecon -R -v /opt/bumbleboard/
+          minikube build -t bumbleboard .
 
       - name: Start Bumbleboard service
-        run: sudo systemctl start bumbleboard.service
+        run: kubectl apply -f deploy/bumbleboard.yml

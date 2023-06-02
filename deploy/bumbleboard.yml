@@ -1,0 +1,51 @@
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: bumbleboard
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 100Mi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: bumbleboard-svc
+spec:
+  type: NodePort
+  ports:
+    - port: 8080
+      targetPort: 8080
+      nodePort: 30001
+  selector:
+    app: bumbleboard
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: bumbleboard
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: bumbleboard
+  template:
+    metadata:
+      labels:
+        app: bumbleboard
+    spec:
+      containers:
+      - name: bumbleboard
+        image: bumbleboard
+        ports:
+        - containerPort: 8080
+        volumeMounts:
+        - mountPath: /app/data
+          name: bumbleboard-data
+      volumes:
+      - name: bumbleboard-data
+        persistentVolumeClaim:
+          claimName: bumbleboard

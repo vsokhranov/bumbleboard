@@ -20,9 +20,12 @@ import (
 )
 
 const (
-	MAX_POSTS       int = 100
-	MAX_POST_LENGTH int = 400
-	POSTS_PER_IP    int = 10
+	MAX_POSTS       int    = 100
+	MAX_POST_LENGTH int    = 400
+	POSTS_PER_IP    int    = 10
+	DATA_PREFIX     string = "/app/data/"
+	POSTS_FILE      string = DATA_PREFIX + "posts.json"
+	LOG_FILE        string = DATA_PREFIX + "posts.log"
 )
 
 type Post struct {
@@ -102,12 +105,12 @@ func (bbs *BBS) AddPost(content string, ip string) {
 
 // Save saves the BBS posts to a file
 func (bbs *BBS) SavePosts() {
-	log.Print("Saving posts to posts.json…")
-	if _, err := os.Stat("posts.json"); os.IsNotExist(err) {
-		log.Print("Creating posts.json file…")
-		file, err := os.Create("posts.json")
+	log.Printf("Saving posts to %s file…", POSTS_FILE)
+	if _, err := os.Stat(POSTS_FILE); os.IsNotExist(err) {
+		log.Printf("Creating %s file…", POSTS_FILE)
+		file, err := os.Create(POSTS_FILE)
 		if err != nil {
-			log.Printf("Error creating posts.json file! %s", err)
+			log.Printf("Error creating %s file! %s", POSTS_FILE, err)
 		}
 		defer file.Close()
 	}
@@ -115,34 +118,34 @@ func (bbs *BBS) SavePosts() {
 	defer bbs.Mutex.Unlock()
 	jsonBytes, err := json.Marshal(bbs.Posts)
 	if err != nil {
-		log.Printf("Error marshalling posts.json file! %s", err)
+		log.Printf("Error marshalling %s file! %s", POSTS_FILE, err)
 	}
-	err = os.WriteFile("posts.json", jsonBytes, 0644)
+	err = os.WriteFile(POSTS_FILE, jsonBytes, 0644)
 	if err != nil {
-		log.Printf("Error writing posts.json file! %s", err)
+		log.Printf("Error writing %s file! %s", POSTS_FILE, err)
 	}
-	log.Print("Successfully wrote posts.json file!")
+	log.Printf("Successfully wrote %s file!", POSTS_FILE)
 }
 
 // LoadPosts loads the BBS posts from a file
 func (bbs *BBS) LoadPosts() {
 	bbs.Mutex.Lock()
 	defer bbs.Mutex.Unlock()
-	file, err := os.Open("posts.json")
+	file, err := os.Open(POSTS_FILE)
 	if err != nil {
-		log.Printf("Error opening posts.json file: %s", err)
+		log.Printf("Error opening %s file: %s", POSTS_FILE, err)
 		return
 	}
 	defer file.Close()
 	jsonBytes, err := io.ReadAll(file)
 	if err != nil {
-		log.Printf("Error reading posts.json file: %s", err)
+		log.Printf("Error reading %s file: %s", POSTS_FILE, err)
 	}
 	err = json.Unmarshal(jsonBytes, &bbs.Posts)
 	if err != nil {
-		log.Printf("Error unmarshalling posts.json file: %s", err)
+		log.Printf("Error unmarshalling %s file: %s", POSTS_FILE, err)
 	}
-	log.Print("Successfully loaded posts.json file!")
+	log.Printf("Successfully loaded %s file!", POSTS_FILE)
 }
 
 // getNameArrays returns two arrays of names for adjectives and animals.
@@ -222,7 +225,7 @@ func sanitizePost(text string) string {
 func main() {
 	// Create a new HTTP server
 	srv := &http.Server{
-		Addr:    ":8081",
+		Addr:    ":8080",
 		Handler: nil, // use the default ServeMux
 	}
 
@@ -231,7 +234,7 @@ func main() {
 	signal.Notify(stop, os.Interrupt, syscall.SIGTERM)
 
 	// Open file for appending
-	logfile, err := os.OpenFile("posts.log", os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
+	logfile, err := os.OpenFile(LOG_FILE, os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
 	if err != nil {
 		log.Fatal(err)
 	}
