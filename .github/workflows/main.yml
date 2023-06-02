@@ -19,7 +19,7 @@ jobs:
         env:
           KUBE_CONFIG: ${{ secrets.KUBE_CONFIG }}
         with:
-          args: image build -t bumbleboard
+          args: image build -t bumbleboard .
 
       - name: Start Bumbleboard service
         run: kubectl apply -f deploy/bumbleboard.yml
