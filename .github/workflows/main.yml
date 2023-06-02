@@ -16,7 +16,7 @@ jobs:
 
       - name: Build Bumbleboard
         run: |
-          minikube build -t bumbleboard .
+          minikube image build -t bumbleboard .
 
       - name: Start Bumbleboard service
         run: kubectl apply -f deploy/bumbleboard.yml
