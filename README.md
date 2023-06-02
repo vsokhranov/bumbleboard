@@ -17,11 +17,11 @@ Just `go run bbs.go` and open http://127.0.0.1:8080
 ---
 title: Bumbleboard deployment chart
 ---
-flowchart LR
+flowchart TB
 subgraph server ["Oracle Cloud server"]
 direction TB
 nginx_proxy("Nginx reverse proxy listening port 443")
-bumbleboard("Bumbleboard app running at http://127.0.0.1:8080")
+bumbleboard("Bumbleboard app in Minikube")
 end
 client_request("Client request to bbbbs.click")
 cloudflare("Cloudflare")
@@ -44,3 +44,4 @@ Bumblebee background image by <a href="https://pixabay.com/users/nekomachines-19
 - 2023-03-30 Beginning of development
 - 2023-04-05 First public version released at https://bbbbs.click
 - 2023-04-06 Disallow empty posts, textarea spaces fix, styles fix
+- 2023-06-02 Deploy to Kubernetes

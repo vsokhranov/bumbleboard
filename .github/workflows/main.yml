@@ -3,7 +3,8 @@ name: Deploy Bumbleboard
 on:
   push:
     branches: [main]
-
+    paths-ignore:
+      - "README.md"
 jobs:
   deploy:
     runs-on: self-hosted
