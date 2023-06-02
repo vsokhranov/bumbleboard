@@ -21,8 +21,5 @@ jobs:
           podman build -f ./Dockerfile -t bumbleboard .
 
       - name: Update Bumbleboard deployment
-        uses: "LiveSafe/ghactions-kubectl@main"
-        env:
-          KUBE_CONFIG_DATA: ${{ secrets.KUBE_CONFIG }}
-        with:
-          manifest: deploy/bumbleboard.yml
+        run: |
+          minikube kubectl -- apply -f deploy/bumbleboard.yml
