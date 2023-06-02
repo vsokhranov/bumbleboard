@@ -40,6 +40,7 @@ spec:
       containers:
       - name: bumbleboard
         image: bumbleboard
+        imagePullPolicy: Never
         ports:
         - containerPort: 8080
         volumeMounts:
