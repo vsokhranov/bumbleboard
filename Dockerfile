@@ -2,7 +2,7 @@ FROM golang AS builder
 WORKDIR /build
 COPY . .
 RUN go mod tidy && \
-    CGO_ENABLED=0 GOOS=linux GOARCH=amd64 \
+    CGO_ENABLED=0 GOOS=linux GOARCH=arm64 \
     go build -a -installsuffix cgo -ldflags="-w -s" -o bbs
 FROM scratch AS production
 WORKDIR /app
