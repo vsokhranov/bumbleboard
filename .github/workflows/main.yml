@@ -23,9 +23,7 @@ jobs:
 
       - name: Build Bumbleboard
         run: |
-          export SHELL=/bin/bash
-          eval $(minikube -p minikube docker-env)
-          podman build --no-cache -f ./Dockerfile -t bumbleboard .
+          minikube image build ./ --push=true --tag=bumbleboard
 
       - name: Update Bumbleboard deployment
         run: |
