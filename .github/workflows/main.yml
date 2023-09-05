@@ -17,6 +17,7 @@ jobs:
           podman run --rm \
           -v ${PWD}:/usr/src/bumbleboard \
           -w /usr/src/bumbleboard \
+          golang \
           go test -v ./...
 
       - name: Build Bumbleboard
