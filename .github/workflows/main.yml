@@ -13,7 +13,11 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Run tests
-        run: go test -v ./...
+        run: >
+          podman run --rm \
+          -v ${PWD}:/usr/src/bumbleboard \
+          -w /usr/src/bumbleboard \
+          go test -v ./...
 
       - name: Build Bumbleboard
         run: |
