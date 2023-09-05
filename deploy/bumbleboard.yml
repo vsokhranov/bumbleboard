@@ -39,8 +39,8 @@ spec:
     spec:
       containers:
       - name: bumbleboard
-        image: registry.devops-tools.svc.cluster.local:5000/bumbleboard/bumbleboard
-        imagePullPolicy: Always
+        image: bumbleboard
+        imagePullPolicy: Never
         ports:
         - containerPort: 8080
         volumeMounts:
