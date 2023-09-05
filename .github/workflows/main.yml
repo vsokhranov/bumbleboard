@@ -15,10 +15,11 @@ jobs:
       - name: Run tests
         run: >
           podman run --rm
+          --security-opt label=disable
           -v ${PWD}:/usr/src/bumbleboard
           -w /usr/src/bumbleboard
           golang
-          go test -v
+          go test -v ./...
 
       - name: Build Bumbleboard
         run: |
