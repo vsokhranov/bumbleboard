@@ -18,7 +18,7 @@ jobs:
           -v ${PWD}:/usr/src/bumbleboard
           -w /usr/src/bumbleboard
           golang
-          go test -v ./...
+          go test -v
 
       - name: Build Bumbleboard
         run: |
